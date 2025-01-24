@@ -1,15 +1,30 @@
-import { Form } from 'react-router-dom';
+import { Form, useLoaderData } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { getContact } from '../contacts';
+
+export async function loader({params}) {
+    const contact = await getContact(params.contactId);
+    return { contact };
+}
+// Using separate loaders keeping each routes data fetching logic separate, preventing unintended side-effects and
+//  separation of concerns makes code easier to read and also ensure future changes are easier to manage
+
+export async function editLoader({params}) {
+    const contact = await getContact(params.contactId);
+    return { contact };
+}
 
 export default function Contact() {
-    const contact = {
-        first: "Your",
-        last: "Name",
-        avatar: "https://robohash.org/you.png?size=200x200",
-        twitter: "your_handle",
-        notes: "This is a note about you",
-        favorite: true,
-    };
+    // const contact = {
+    //     first: "Your",
+    //     last: "Name",
+    //     avatar: "https://robohash.org/you.png?size=200x200",
+    //     twitter: "your_handle",
+    //     notes: "This is a note about you",
+    //     favorite: true,
+    // };
+
+    const { contact } = useLoaderData();
 
     return (
         <div id="contact">
