@@ -7,6 +7,7 @@ import ErrorPage from './error-page';
 import Contact, {loader as contactLoader, editLoader} from './routes/contact';
 import EditContact, {action as editAction} from './routes/edit';
 import {action as destroyAction} from './routes/destroy';
+import Index from './routes';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,9 @@ const router = createBrowserRouter([
     loader: rootLoader,
     action: rootAction,
     children: [
+      // Here is index instead of path, 
+      // this is a special case where the route is the index of the parent route
+      { index: true, element: <Index /> },
       {
         // URL Params (params): The colon (:) turns it into a "dynamic segment" that matches dynamic values in the URL.
         path: "contacts/:contactId",
@@ -31,6 +35,7 @@ const router = createBrowserRouter([
       {
         path: "contacts/:contactId/destroy",
         action: destroyAction,
+        errorElement: <div>Oops! There was an error</div>
       },
     ],
   },
