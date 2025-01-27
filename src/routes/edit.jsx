@@ -3,8 +3,21 @@ import { updateContact } from "../contacts";
 
 export async function action({request, params}) {
   const formData = await request.formData();
+
+  // always possible to get the form data from the request
+  // const firstName = formData.get("first");
+  // const lastName = formData.get("last");
+
+
   const updates = Object.fromEntries(formData);
+
+  // and then use to update the contact 
+  // updates.first; // "Some"
+  // updates.last; // "Name"
+
   await updateContact(params.contactId, updates);
+
+  // redirect helper makes it easier to return a respose that redirects to a new location
   return redirect(`/contacts/${params.contactId}`);
 }
 
