@@ -1,4 +1,4 @@
-import { Outlet, Link, useLoaderData, Form, redirect } from "react-router-dom";
+import { Outlet, useLoaderData, Form, redirect, NavLink, useNavigation } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
 
 export async function loader() {
@@ -13,6 +13,7 @@ export async function action() {
 
 export default function Root() {
     const { contacts } = useLoaderData();
+    const navigation = useNavigation();
     return (
       <>
         <div id="sidebar">
@@ -45,7 +46,9 @@ export default function Root() {
             <ul>
               {contacts.map((contact) => (
                 <li key={contact.id}>
-                  <Link to={`contacts/${contact.id}`}>
+                  {/* NavLink adds styling attributes to rendered elements, useful for highlighting an active link in menu
+                   vs Link which creates a hyperlink with no styling or indication of which is the active route */}
+                  <NavLink to={`contacts/${contact.id}`}>
                     {contact.first || contact.last ? (
                       <>
                         {contact.first} {contact.last}
@@ -54,7 +57,7 @@ export default function Root() {
                       <i>No Name</i>
                     )}{" "}
                     {contact.favorite && <span>★</span>}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -66,7 +69,11 @@ export default function Root() {
           </nav>
         
         </div>
-        <div id="detail">
+        <div id="detail"
+        className={
+          // useNavigation states can be "loading", "idle" or "submitting"
+          navigation.state === "loading" ? "loading" : ""
+        }>
             <Outlet />
         </div>
       </>

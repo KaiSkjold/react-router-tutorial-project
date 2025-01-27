@@ -65,9 +65,11 @@ export default function Contact() {
                     <Form
                     method="post"
                     action="destroy"
-                    OnSubmit={(event) => {
-                        if (!confirm("Do you want to delete this contact?")) 
-                            { event.preventDefault(); } }}
+                    onSubmit={(event) => {
+                        if (!confirm("Do you want to delete this contact?")) {
+                            event.preventDefault();
+                        }
+                    }}
                     >
                         <button type='submit'>Delete</button>
                     </Form>
