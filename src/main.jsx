@@ -13,34 +13,72 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
-    children: [
-      // Here is index instead of path, 
-      // this is a special case where the route is the index of the parent route
-      { index: true, element: <Index /> },
-      {
-        // URL Params (params): The colon (:) turns it into a "dynamic segment" that matches dynamic values in the URL.
-        path: "contacts/:contactId",
-        element: <Contact />,
-        loader: contactLoader,
-        action: contactAction,
-      },
-      {
-        path: "contacts/:contactId/edit",
-        element: <EditContact />,
-        loader: editLoader,
-        action: editAction,
-      },
-      {
-        path: "contacts/:contactId/destroy",
-        action: destroyAction,
-        errorElement: <div>Oops! There was an error</div>
+    errorElement: <ErrorPage />,
+    children: [{
+      errorElement: <ErrorPage />,
+      children: [
+          // Here is index instead of path, 
+          // this is a special case where the route is the index of the parent route
+          { index: true, element: <Index /> },
+          {
+            // URL Params (params): The colon (:) turns it into a "dynamic segment" that matches dynamic values in the URL.
+            path: "contacts/:contactId",
+            element: <Contact />,
+            loader: contactLoader,
+            action: contactAction,
+          },
+          {
+            path: "contacts/:contactId/edit",
+            element: <EditContact />,
+            loader: editLoader,
+            action: editAction,
+          },
+          {
+            path: "contacts/:contactId/destroy",
+            action: destroyAction,
+            errorElement: <div>Oops! There was an error</div>
+          },
+        ],
       },
     ],
   },
 ]);
+
+// stylistic choice using JSX to create routes, createRoutesFromElements and Route
+// const router = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route
+//       path="/"
+//       element={<Root />}
+//       loader={rootLoader}
+//       action={rootAction}
+//       errorElement={<ErrorPage />}
+//     >
+//       <Route errorElement={<ErrorPage />}>
+//         <Route index element={<Index />} />
+//         <Route
+//           path="contacts/:contactId"
+//           element={<Contact />}
+//           loader={contactLoader}
+//           action={contactAction}
+//         />
+//         <Route
+//           path="contacts/:contactId/edit"
+//           element={<EditContact />}
+//           loader={contactLoader}
+//           action={editAction}
+//         />
+//         <Route
+//           path="contacts/:contactId/destroy"
+//           action={destroyAction}
+//         />
+//       </Route>
+//     </Route>
+//   )
+// );
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />

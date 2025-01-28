@@ -4,6 +4,9 @@ import { getContact, updateContact } from '../contacts';
 
 export async function loader({params}) {
     const contact = await getContact(params.contactId);
+    if (!contact) {
+        return { status: 404, statusText: "Contact not found" };
+    }
     return { contact };
 }
 // Using separate loaders keeping each routes data fetching logic separate, preventing unintended side-effects and
