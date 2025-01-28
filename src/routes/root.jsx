@@ -45,7 +45,10 @@ export default function Root() {
                 // when the input value changes, submit the form
                 // currentTarget is the parent form element
                 onChange={(event) => {
-                  submit(event.currentTarget.form);
+                  const isFirstSearch = q == null;
+                  submit(event.currentTarget.form, {
+                    replace: !isFirstSearch,
+                  });
                 }}
               />
               <div
